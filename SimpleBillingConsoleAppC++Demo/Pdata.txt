@@ -1,0 +1,4 @@
+1	Tomato	20	2
+2	Carrot	1	2
+3	Petato	50	5
+
