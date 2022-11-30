@@ -83,10 +83,11 @@ void cart::receipt() {
 	int arrId[100];
 	int arrQty[100];
 	int c = 0;
-	string choice;
-	float amount = 0;
-	float dis = 0;
-	float total = 0;
+	char choice;
+	float amount = 0.0;
+	float dis = 0.0;
+	float total = 0.0;
+	float grandTotal = 0.0;
 
 	cout << "\n\t\t\t\t\t----------------------\n";
 	cout << "\n\t\t\t\t\t       Receipt     \n\n";
@@ -105,13 +106,14 @@ void cart::receipt() {
 		cout << "\t\t\t\t\t  Add your order to the cart  	\n";
 		cout << "\t\t\t\t\t_________________________________\n";
 
-		cout << "\n\t\t\t\t\t Enter product number: ";
-		cin >> arrId[c];
-		cout << "\n\t\t\t\t\t Enter the quantity: ";
-		cin >> arrQty[c];
-
+		
 		do {
 		main:
+			cout << "\n\t\t\t\t\t Enter product number: ";
+			cin >> arrId[c];
+			cout << "\n\t\t\t\t\t Enter the quantity: ";
+			cin >> arrQty[c];
+
 			for (int i = 0; i < c; i++) {
 
 				if (arrId[c] == arrId[i]) {
@@ -122,15 +124,12 @@ void cart::receipt() {
 			}
 			c++;
 			cout << "\n\n\t\t Do you want to add another product to the cart, if yes press 'y' else press 'n': ";
-
 			cin >> choice;
-		
-		} 
-		
-		while (choice == "y");
+					
+		}while (choice == 'y');
 
-		cout << "\n\n\t\t\t_______________Receipt_____________";
-		cout << "\n\t Product No.\t Product Name \t Quantity\tPrice\tAmount\tAmountWithDiscount";
+		cout << "\n\n\t\t\t_______________Receipt_____________\n\n";
+		cout << "\n Product No.\t Product Name \t Quantity\tPrice \tDiscount \t Amount"; 
 
 		for (int i = 0; i < c; i++) {
 			data.open("Pdata.txt", ios::in);
@@ -139,19 +138,19 @@ void cart::receipt() {
 			{
 				if (productId == arrId[i]) {
 					amount = price * arrQty[i];
-					dis = amount - (amount * discount / 100);
-					total = total + dis;
+					dis =  (amount * discount / 100);
+					total =  amount - dis;
+					cout << "\n     " << productId << "\t\t  " << productName << "\t   " << arrQty[i] << "\t\t " << price << "\t   " << dis << " \t\t  " << total;
 				}
-				cout << "\n" << productId << "\t\t" << productName << "\t\t" << arrQty[i] << "\t\t" << price << "\t\t" << dis;
+				data >> productId >> productName >> price >> discount;
 			}
-			data >> productId >> productName >> price >> discount;
+			
 		}
 		data.close();
 
 	}
-
 	cout << "\n\n____________________________________";
-	cout << "\n\t Total Amount:" << total << endl;
+	cout << "\n\t Total Amount: " << total << "  \n";
 
 
 }
@@ -181,7 +180,7 @@ main:
 	cout << "\t\t\t\t\t					\n";
 	cout << "\t\t\t\t\t3- Exit   		\n";
 	cout << "\t\t\t\t\t					\n";
-	cout << "\n\t\t\t\t	Please select : ";
+	cout << "\n\t\t\t\t	Please choice 1,2 or 3 : ";
 	cin >> choice;
 	// Validation for integer input 
 	bool intCheck = (std::numeric_limits<std::streamsize>::is_integer, choice );
